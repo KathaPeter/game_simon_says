@@ -59,6 +59,18 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
+#define BTN0_Pin GPIO_PIN_0
+#define BTN0_GPIO_Port GPIOF
+#define BTN1_Pin GPIO_PIN_1
+#define BTN1_GPIO_Port GPIOF
+#define BTN2_Pin GPIO_PIN_2
+#define BTN2_GPIO_Port GPIOF
+#define LED0_Pin GPIO_PIN_3
+#define LED0_GPIO_Port GPIOF
+#define LED1_Pin GPIO_PIN_5
+#define LED1_GPIO_Port GPIOF
+#define LED2_Pin GPIO_PIN_10
+#define LED2_GPIO_Port GPIOF
 #define MCO_Pin GPIO_PIN_0
 #define MCO_GPIO_Port GPIOH
 #define RMII_MDC_Pin GPIO_PIN_1
@@ -75,6 +87,16 @@ void Error_Handler(void);
 #define RMII_RXD1_GPIO_Port GPIOC
 #define LD1_Pin GPIO_PIN_0
 #define LD1_GPIO_Port GPIOB
+#define SegmentE_Pin GPIO_PIN_7
+#define SegmentE_GPIO_Port GPIOE
+#define SegmentF_Pin GPIO_PIN_8
+#define SegmentF_GPIO_Port GPIOE
+#define SegmentB_Pin GPIO_PIN_10
+#define SegmentB_GPIO_Port GPIOE
+#define SegmentG_Pin GPIO_PIN_12
+#define SegmentG_GPIO_Port GPIOE
+#define SegmentA_Pin GPIO_PIN_14
+#define SegmentA_GPIO_Port GPIOE
 #define RMII_TXD1_Pin GPIO_PIN_13
 #define RMII_TXD1_GPIO_Port GPIOB
 #define LD3_Pin GPIO_PIN_14
