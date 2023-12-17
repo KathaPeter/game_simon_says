@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "string.h"
+#include "seven_segment_display.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -117,50 +118,19 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
-
+  uint8_t count = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_WritePin(SegmentE_GPIO_Port, SegmentE_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(SegmentB_GPIO_Port, SegmentB_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(SegmentF_GPIO_Port, SegmentF_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(SegmentG_GPIO_Port, SegmentG_Pin, GPIO_PIN_SET);
-	  HAL_GPIO_WritePin(SegmentA_GPIO_Port, SegmentA_Pin, GPIO_PIN_SET);
 
-	  if(HAL_GPIO_ReadPin(BTN0_GPIO_Port, BTN0_Pin))
-	  {
-		  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
-	  }
-	  else
-	  {
-		  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
-	  }
+	HAL_Delay(3000);
+	set_display(count);
+	count++;
 
-//	  HAL_Delay(1000);
-
-//	  HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-//	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-//	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED2_Pin);
-//
-//	  if(toggle == 0){
-//		  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
-//		  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
-//		  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-//
-//	  }
-//
-//	  else{
-//		  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
-//		  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
-//		  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
-//	  }
-//
-//	  toggle = !toggle;
-
-
+	if(count > 9){count = 0;}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -372,8 +342,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, LD1_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, SegmentE_Pin|SegmentF_Pin|SegmentB_Pin|SegmentG_Pin
-                          |SegmentA_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, SegmentE_Pin|SegmentG_Pin|SegmentD_Pin|SegmentB_Pin
+                          |SegmentF_Pin|SegmentA_Pin|SegmentC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
@@ -404,10 +374,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SegmentE_Pin SegmentF_Pin SegmentB_Pin SegmentG_Pin
-                           SegmentA_Pin */
-  GPIO_InitStruct.Pin = SegmentE_Pin|SegmentF_Pin|SegmentB_Pin|SegmentG_Pin
-                          |SegmentA_Pin;
+  /*Configure GPIO pins : SegmentE_Pin SegmentG_Pin SegmentD_Pin SegmentB_Pin
+                           SegmentF_Pin SegmentA_Pin SegmentC_Pin */
+  GPIO_InitStruct.Pin = SegmentE_Pin|SegmentG_Pin|SegmentD_Pin|SegmentB_Pin
+                          |SegmentF_Pin|SegmentA_Pin|SegmentC_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
