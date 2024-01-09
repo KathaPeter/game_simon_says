@@ -12,34 +12,32 @@
 #include "game_control.h"
 
 /**
- *  @brief: Handles the debouncing of user inputs via buttons and turns on the associated LED corresponding
- *  		to the pressed button. This function is only exited, when a button has been successfully debounced.
+ *  @brief: Handles the debouncing of user inputs via buttons. This function is only exited, when a button has been successfully debounced.
  *
  *  @param: psButtons: Allows access to the characteristics of each individual button.
  *
  *  @returns:  Index of pressed button.
  */
-static int8_t s8GetDebouncedButton(sButton_t* psButtons);
+static uint8_t u8GetDebouncedButton(sButton_t* psButtons);
 
 /**
  *  @brief: Checks whether a button has been successfully debounced or not.
  *
- *  @param: psButtons: Allows access to the debounce characteristic of the button.
+ *  @param: psButtons: Allows access to the debounce characteristic of a button.
  *
  *  @returns:  1: Button is succesfully debounced.
  *  		   0: Button has not yet been debounced.
  */
 static uint8_t bCheckButtonDebounced(sButton_t* psButtons);
 
-
-int8_t s8GameControl_GetUserInput(sButton_t* psButtons, void (*vShowSignalOnButtonPress_Callback)(void*))
+uint8_t u8GameControl_GetUserInput(sButton_t* psButtons, void (*vShowSignalOnButtonPress_Callback)(uint8_t u8ButtonIndex))
 {
-	int8_t i8IndexPressedButton = s8GetDebouncedButton(psButtons);
-	vShowSignalOnButtonPress_Callback(&i8IndexPressedButton);
-	return i8IndexPressedButton;
+	uint8_t u8DebouncedButtonIndex = u8GetDebouncedButton(psButtons);
+	vShowSignalOnButtonPress_Callback(u8DebouncedButtonIndex);
+	return u8DebouncedButtonIndex;
 }
 
-static int8_t s8GetDebouncedButton(sButton_t* psButtons)
+static uint8_t u8GetDebouncedButton(sButton_t* psButtons)
 {
 	do
 	{

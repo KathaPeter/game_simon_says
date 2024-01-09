@@ -13,6 +13,9 @@
 #define PORT_E_ODR (uint32_t * const) (0x40021000 + 0x14)
 #define BITMASK ~0xF580
 
+/**
+ *  Look up table holds bit sequences which represents numbers 0 - 9 for the seven segment display
+ */
 static const uint32_t u32LookUp[10] = {0xF180, 0xA000, 0xC580, 0xE500, 0xB400, 0x7500, 0x3580, 0xE000, 0xF580, 0xF500};
 
 int8_t s8Segment_SetDisplay(uint8_t u8Number)

@@ -1,20 +1,28 @@
 /*****************************************************************************************************
   *
   * @file           : generated_numbers.c
-  * @brief          : handles the generation of a new random number and appends it to the history of
-  * 				  all previously generated random numbers within a game round.
+  * @brief          : Generates a random number.
   *
   * Created by Katharina Peter on 12/18/2023.
   * Copyright @ 2023 Katharina Peter. All rights reserved.
   *
 *****************************************************************************************************/
 
-#include "simon_says.h"
 
-void vSimonSays_Init(sGameData_t* sGame)
+#include "generate_random_numbers.h"
+
+#include <stdlib.h>
+#include <time.h>
+
+uint8_t u8GenerateRandomNumber(void)
 {
-	sGame->u8Round = 0;
-	sGame->eCurrentState = INGAME;
+	//srand(0);  TODO set real random seed (timestamp, temperature, ..)
+	return rand() % 3;
 }
+
+
+
+
+
 
 

@@ -10,6 +10,15 @@
 
 #include <stdint.h>
 
+/**
+ *  @brief: Shows a given number on a seven segment display.
+ *
+ *  @param: u8Number: Number that will lights up on the seven segment display.
+ *
+ *  @returns: 0: Success
+ *  		 -1: Error
+ *
+ */
 int8_t s8Segment_SetDisplay(uint8_t u8Number);
 
 #endif /* SRC_SEVEN_SEGMENT_DISPLAY_H_ */
