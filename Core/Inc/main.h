@@ -59,18 +59,18 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
-#define BTN0_Pin GPIO_PIN_0
-#define BTN0_GPIO_Port GPIOF
-#define BTN1_Pin GPIO_PIN_1
-#define BTN1_GPIO_Port GPIOF
-#define BTN2_Pin GPIO_PIN_2
-#define BTN2_GPIO_Port GPIOF
-#define LED0_Pin GPIO_PIN_3
+#define LED0_Pin GPIO_PIN_0
 #define LED0_GPIO_Port GPIOF
-#define LED1_Pin GPIO_PIN_5
+#define LED1_Pin GPIO_PIN_1
 #define LED1_GPIO_Port GPIOF
-#define LED2_Pin GPIO_PIN_10
+#define LED2_Pin GPIO_PIN_2
 #define LED2_GPIO_Port GPIOF
+#define BTN0_Pin GPIO_PIN_3
+#define BTN0_GPIO_Port GPIOF
+#define BTN1_Pin GPIO_PIN_5
+#define BTN1_GPIO_Port GPIOF
+#define BTN2_Pin GPIO_PIN_10
+#define BTN2_GPIO_Port GPIOF
 #define MCO_Pin GPIO_PIN_0
 #define MCO_GPIO_Port GPIOH
 #define RMII_MDC_Pin GPIO_PIN_1

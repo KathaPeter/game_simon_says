@@ -19,6 +19,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "string.h"
+#include "simon_says.h"
+#include "LED_Feedback.h"
+#include "game_control.h"
+#include "generated_numbers.h"
 #include "seven_segment_display.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -118,19 +122,73 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t count = 0;
+
+  	sLED_t psLED[] = {
+  			{.LED_Port = LED0_GPIO_Port, .u16LED_PIN = LED0_Pin},
+			{.LED_Port = LED1_GPIO_Port, .u16LED_PIN = LED1_Pin},
+			{.LED_Port = LED2_GPIO_Port, .u16LED_PIN = LED2_Pin},
+  	};
+
+	sButton_t psButtons[] = {
+			{.BTN_Port = BTN0_GPIO_Port, .u16BTN_PIN = BTN0_Pin, .debounce = 0},
+			{.BTN_Port = BTN1_GPIO_Port, .u16BTN_PIN = BTN1_Pin, .debounce = 0},
+			{.BTN_Port = BTN2_GPIO_Port, .u16BTN_PIN = BTN2_Pin, .debounce = 0},
+	};
+
+  	sGameData_t sGame;
+  	SimonSays_Init(&sGame);
+
+  	uint8_t u8UserInput;
+  	uint8_t u8UserInputCount;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	 //If game over or already victory then restart game
+	 if(sGame.eCurrentState != INGAME)
+	 {
+		 SimonSays_Init(&sGame);
+		 //Signal start
+		 s8Segment_SetDisplay(sGame.u8Round);
+	 }
 
-	HAL_Delay(3000);
-	set_display(count);
-	count++;
+	 HAL_Delay(800);
+	 //Show round
+	 sGame.u8Round++;
+	 s8Segment_SetDisplay(sGame.u8Round);
 
-	if(count > 9){count = 0;}
+	 //Generate and show Sequence
+	 generateNextSequence(sGame.u8RandomNumbers, MAX_ROUNDS, sGame.u8Round);
+	 showGeneratedNumbers(psLED, sGame.u8RandomNumbers, sGame.u8Round);
+
+	 //Read UserInput an compare Sequence with UserInput
+	 u8UserInputCount = 0;
+	 do
+	 {
+		u8UserInput = s8GameControl_GetUserInput(psButtons, &showLED_ButtonPress);
+
+		if(u8UserInput != sGame.u8RandomNumbers[u8UserInputCount])
+		{
+			sGame.eCurrentState = GAME_OVER;
+			showLED_GameOver();
+			break;
+		}
+
+		u8UserInputCount++;
+
+	 } while(u8UserInputCount < sGame.u8Round);
+
+
+
+	 if(u8UserInputCount == MAX_ROUNDS && sGame.eCurrentState != GAME_OVER)
+		 {
+			 sGame.eCurrentState = GAME_WON;
+			 showVictory();
+		 }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -354,17 +412,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USER_Btn_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : BTN0_Pin BTN1_Pin BTN2_Pin */
-  GPIO_InitStruct.Pin = BTN0_Pin|BTN1_Pin|BTN2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
   /*Configure GPIO pins : LED0_Pin LED1_Pin LED2_Pin */
   GPIO_InitStruct.Pin = LED0_Pin|LED1_Pin|LED2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : BTN0_Pin BTN1_Pin BTN2_Pin */
+  GPIO_InitStruct.Pin = BTN0_Pin|BTN1_Pin|BTN2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LD1_Pin LD3_Pin LD2_Pin */
